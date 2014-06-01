@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 sourceCompatibility = 1.5
-mainClassName = 'cl.blackbird.paperserver.Main'
+mainClassName = 'cl.blackbird.server.PaperServer'
 version = '1.0'
 
 

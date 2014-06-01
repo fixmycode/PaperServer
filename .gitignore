@@ -1,5 +1,6 @@
 # Archivos Compilados #
 *.class
+*.log
 
 # Sistema de Paquetes #
 *.jar
