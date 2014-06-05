@@ -3,9 +3,13 @@ package cl.blackbird.server;
 
 import cl.blackbird.server.listen.ClientThread;
 import cl.blackbird.server.log.PaperLog;
+import cl.blackbird.server.model.Storage;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 public class PaperServer {
@@ -29,13 +33,22 @@ public class PaperServer {
 
         logger.info("Iniciando servidor en el puerto " + port + "...");
 
+        Storage storage = new Storage();
+        ExecutorService executor = Executors.newFixedThreadPool(10);
+
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             logger.finest("Servidor iniciado con éxito en el puerto " + port);
-            while(true){
-                new ClientThread(serverSocket.accept()).run();
-                break;
+            Socket client;
+            int count = 0;
+            while(count < 3){
+                ClientThread worker = new ClientThread(serverSocket.accept(), storage);
+                executor.execute(worker);
+                count++;
             }
+            executor.shutdown();
+            logger.info("Atención finalizada. Cerrando conexión.");
+            serverSocket.close();
         } catch (IOException e){
             logger.severe("Ocurrió un error");
             logger.severe(e.getMessage());

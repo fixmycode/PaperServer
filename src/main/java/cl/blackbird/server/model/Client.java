@@ -7,9 +7,6 @@ import java.net.Socket;
 import java.text.ParseException;
 import java.util.logging.Logger;
 
-/**
- * Created by oni on 6/1/14.
- */
 public class Client {
     private Socket socket;
     private String address;
@@ -41,6 +38,12 @@ public class Client {
     @Override
     public String toString() {
         return address + ":" + port;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Client compare = (Client) obj;
+        return this.toString().equals(compare.toString());
     }
 
     public String getAddress() {
