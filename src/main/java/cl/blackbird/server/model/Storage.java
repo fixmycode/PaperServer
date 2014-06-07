@@ -1,5 +1,6 @@
 package cl.blackbird.server.model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Storage {
@@ -31,7 +32,7 @@ public class Storage {
         return response;
     }
 
-    public synchronized int saveDocument(Document document) {
+    public synchronized int saveDocument(Document document) throws IOException {
         document.setId(documentIndex++);
         this.documentList.add(document);
         return document.getId();

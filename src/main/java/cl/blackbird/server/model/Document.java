@@ -1,10 +1,7 @@
 package cl.blackbird.server.model;
 
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -15,6 +12,7 @@ public class Document {
     private Date date;
     private String fileName;
     private int length;
+    private File file;
 
     public Document(Client sender, Client receiver, String fileName) {
         this.id = -1;
@@ -22,15 +20,17 @@ public class Document {
         this.receiver = receiver;
         this.fileName = fileName;
         this.date = new Date();
+        this.file = null;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(int id) throws IOException {
         if(this.id == -1){
             this.id = id;
+            this.file = File.createTempFile(id+"_"+getFileName(), null);
         }
     }
 
@@ -63,16 +63,20 @@ public class Document {
     public void saveContent(int fileLength, BufferedReader input) throws IOException {
         this.length = fileLength;
         int remaining = this.length;
-        FileOutputStream outputStream = null;
+        FileOutputStream outputStream = new FileOutputStream(this.file);
         while(remaining-- > 0){
             outputStream.write(input.read());
         }
+        outputStream.flush();
+        outputStream.close();
     }
 
-    public void writeContent(PrintStream output) {
+    public void writeContent(PrintStream output) throws IOException {
         int remaining = this.length;
+        FileInputStream inputStream = new FileInputStream(this.file);
         while(remaining-- > 0) {
-            output.write(0);
+            output.write(inputStream.read());
         }
+        inputStream.close();
     }
 }
