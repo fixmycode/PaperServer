@@ -55,6 +55,10 @@ public class Document {
         return formatter.format(this.date);
     }
 
+    public int getLength() {
+        return length;
+    }
+
     @Override
     public String toString() {
         return String.format("%d %d %s %s", getId(), getNameLength(), getDateString(), getFileName());

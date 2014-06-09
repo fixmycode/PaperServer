@@ -64,7 +64,7 @@ del archivo. El servidor responderá OK, el largo del nombre del archivo, el nom
 la cadena de bytes correspondiente.
 
     C: GETF 1
-    S: OK 11 esquema.jpg 451450 /* bytes */
+    S: OK 451450 /* bytes */
 
 El archivo permanecerá en el servidor durante la ejecución del servicio o hasta que se haya registrado un envío exitoso
 de la información.

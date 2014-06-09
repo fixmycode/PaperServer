@@ -101,6 +101,7 @@ public class PaperProtocol {
         logger.info("Cliente " + source + " solicita el archivo con ID " + fileId);
         Document document = storage.getDocument(source, fileId);
         if(document != null) {
+            this.output.print(String.format("OK %d ", document.getLength()));
             document.writeContent(this.output);
             storage.removeDocument(source, fileId);
         } else {
