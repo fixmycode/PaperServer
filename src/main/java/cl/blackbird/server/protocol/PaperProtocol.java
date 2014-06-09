@@ -79,7 +79,7 @@ public class PaperProtocol {
         logger.info("Cliente " + source + " solicita mensajes enviados por " + sender);
         ArrayList<Message> messages = storage.getMessages(sender, source);
         ArrayList<Document> documents = storage.getDocuments(sender, source);
-        this.output.println(String.format("OK %d messages %d files", messages.size(), messages.size()));
+        this.output.println(String.format("OK %d messages %d files", messages.size(), documents.size()));
         for(Message m : messages) {
             this.output.println(m);
         }
@@ -97,7 +97,7 @@ public class PaperProtocol {
         this.output.println(String.format("OK %d %s", document.getId(), document.getDateString()));
     }
 
-    private void getf(int fileId) throws FileNotFoundException {
+    private void getf(int fileId) throws IOException {
         logger.info("Cliente " + source + " solicita el archivo con ID " + fileId);
         Document document = storage.getDocument(source, fileId);
         if(document != null) {
